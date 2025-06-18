@@ -1,0 +1,76 @@
+---
+title: "HW1-Effect of Vitamin C on Tooth Growth in Guinea Pigs"
+author: "Soham Jadhav - 24212842"
+format: pdf
+execute:
+  echo: false
+  message: false
+  warning: false
+---
+
+## Introduction
+
+The Tooth-Growth dataset, available in R, studies the impact of **vitamin C** on **tooth length** in guinea pigs. Two supplement types were tested: Orange Juice (OJ) and Ascorbic Acid (VC), across three dose levels: 0.5, 1.0, and 2.0 mg/day.
+
+## Plotting the Data
+
+Below is a boxplot showing how **tooth length** changes across different **dose levels** and **supplement types**.
+
+```{r}
+# Load libraries and data 
+library(ggplot2) 
+library(dplyr) 
+library(knitr)
+data(ToothGrowth)
+```
+
+```{r}
+#Boxplot
+ggplot(ToothGrowth, 
+       aes(x = factor(dose), 
+           y = len, fill = supp)) + 
+  geom_boxplot(outlier.color = "black") + 
+  labs( title = "Tooth Length by Dose and Supplement Type", 
+        x = "Dose (mg/day)", y = "Tooth Length (mm)", 
+        fill = "Supplement Type" ) + theme_minimal(base_size = 12)
+```
+
+The boxplot illustrates how vitamin C dosages is directly proportional to tooth growth. Notably:
+
+-   Orange juice seems to work better than ascorbic acid at **0.5 mg per day**.
+
+-   At **1.0 mg per day**, the difference decreases.
+
+The effects of both supplements are comparable at **2.0 mg/day**.
+
+These results imply that at low dosages, the mode of distribution is important, but at higher dosages, the total amount of vitamin C becomes the primary consideration.
+
+## Descriptive Statistics
+
+Summary of the tooth-length grouped by supplement type and dose:
+
+```{r}
+#Summary Table
+ToothGrowth %>%
+  group_by(supp, dose) %>%
+  summarise(
+    Mean_Length = round(mean(len), 2),
+    .groups = "drop"
+  ) %>%
+  knitr::kable(caption = "Mean Tooth Length by Supplement and Dose (mg/day)")
+
+```
+
+### Summary Explanation 
+
+-   **Tooth length increases with dose** for both supplements.
+
+```{=html}
+<!-- -->
+```
+-    **Orange Juice (OJ)** consistently leads to **higher tooth growth** than **Ascorbic Acid (VC)** at **0.5 mg** and **1.0 mg** doses.
+
+```{=html}
+<!-- -->
+```
+-    At **2.0 mg/day**, both OJ and VC result in **similar mean tooth lengths** (\~26 mm), showing that the **effect of dose dominates** at higher levels.
